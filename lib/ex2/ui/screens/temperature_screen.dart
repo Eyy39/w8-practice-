@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class TemperatureScreen extends StatelessWidget {
+class TemperatureScreen extends StatefulWidget {
   TemperatureScreen({super.key, required this.onTap});
   final VoidCallback onTap;
 
+  @override
+  State<TemperatureScreen> createState() => _TemperatureScreenState();
+}
+
+class _TemperatureScreenState extends State<TemperatureScreen> {
   final InputDecoration inputDecoration = InputDecoration(
     enabledBorder: OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.white, width: 1.0),
@@ -12,6 +18,19 @@ class TemperatureScreen extends StatelessWidget {
     hintText: 'Enter a temperature',
     hintStyle: const TextStyle(color: Colors.white),
   );
+  String _fahrenheitresult = '0';
+
+  void _convertTemperature(String value){
+    final double? celcuis = double.tryParse(value);
+    setState(() {
+      if(celcuis != null){
+        double fahrenheit = (celcuis * 1.8)+32;
+        _fahrenheitresult = fahrenheit.toStringAsFixed(1);
+      }else{
+        _fahrenheitresult = '0';
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +56,9 @@ class TemperatureScreen extends StatelessWidget {
             const Text("Temperature in Degrees:"),
             const SizedBox(height: 10),
             TextField(
+              onChanged: _convertTemperature,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d*'))],
               decoration: inputDecoration,
               style: const TextStyle(color: Colors.white),
             ),
@@ -49,7 +71,7 @@ class TemperatureScreen extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('0'),
+              child: Text(_fahrenheitresult),
             ),
           ],
         ),
