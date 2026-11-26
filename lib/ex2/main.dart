@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'ui/screens/temperature_screen.dart';
 import 'ui/screens/welcome_screen.dart';
  
 class TemperatureApp extends StatefulWidget {
@@ -12,6 +13,12 @@ class TemperatureApp extends StatefulWidget {
 }
 
 class _TemperatureAppState extends State<TemperatureApp> {
+  bool isConvert = false;
+  void _handleTap(){
+    setState(() {
+      isConvert = !isConvert;
+    });
+  }
   
   @override
   Widget build(context) {
@@ -29,7 +36,7 @@ class _TemperatureAppState extends State<TemperatureApp> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: const WelcomeScreen(),
+          child: isConvert ? TemperatureScreen(onTap: _handleTap,) : WelcomeScreen(onTap: _handleTap,),
         ),
       ),
     );

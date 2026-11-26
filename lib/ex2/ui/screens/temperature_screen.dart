@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TemperatureScreen extends StatelessWidget {
-  TemperatureScreen({super.key});
+  TemperatureScreen({super.key, required this.onTap});
+  final VoidCallback onTap;
 
   final InputDecoration inputDecoration = InputDecoration(
     enabledBorder: OutlineInputBorder(
@@ -48,7 +49,7 @@ class TemperatureScreen extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Text('test'),
+              child: const Text('0'),
             ),
           ],
         ),
